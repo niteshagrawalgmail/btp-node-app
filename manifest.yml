@@ -1,0 +1,27 @@
+---
+applications:
+- name: myapp
+  routes:
+    - route: node-i045234-myapp.cfapps.us10-001.hana.ondemand.com
+  path: myapp
+  memory: 128M
+  buildpack: nodejs_buildpack
+  services:
+  - nodeuaa
+
+- name: web
+  routes:
+    - route: web-i045234.cfapps.us10-001.hana.ondemand.com
+  path: web
+  memory: 128M
+  env:
+    destinations: >
+      [
+        {
+          "name":"myapp",
+          "url":"https://node-i045234-myapp.cfapps.us10-001.hana.ondemand.com",
+          "forwardAuthToken": true
+        }
+      ]
+  services:
+  - nodeuaa
